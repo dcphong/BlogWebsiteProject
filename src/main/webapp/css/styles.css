@@ -1,0 +1,61 @@
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.sidebar .nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    background-color: #495057;
+}
+
+.bg-ytb {
+    background-color: #181818;
+}
+
+.bg-button-ytb {
+    background-color: #292929;
+    color: white;
+}
+
+.bg-button-ytb:hover {
+    background-color: #3c3c3c;
+    color: white;
+}
+
+.link-ytb {
+    text-decoration: none;
+}
+
+body::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.scrollbar-off::-webkit-scrollbar {
+    overflow: hidden;
+}
+
+.bg-description {
+    background: #f3f3f329;
+}
+
+
+#pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
+    width: 100%; /* Đảm bảo nó bao phủ toàn bộ chiều ngang */
+    margin: auto; /* Đặt auto để nó luôn nằm ở giữa */
+}
+
+.pageButton {
+    min-width: 40px; /* Đồng nhất kích thước */
+    text-align: center;
+}

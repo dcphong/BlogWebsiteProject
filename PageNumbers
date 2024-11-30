@@ -1,0 +1,23 @@
+ <!-- PAGENUMBER -->
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="Page navigation example " style="margin-left:550px;">
+                    <ul class="pagination">
+                        <form action="${url}" method="POST">
+                            <c:if test="${pageNumbers == null}">
+                                <button class="btn btn-outline-light page-item" disabled name="pageNum" value="1">1</button>
+                            </c:if>
+                            <c:if test="${pageNumbers != null }">
+                                <c:forEach var="i" begin="1" end="${pageNumbers}">
+                                    <button class="btn btn-outline-light page-item" type="submit" name="pageNum" value="${i}">${i}</button>
+                                </c:forEach>
+                            </c:if>
+                        </form>
+                    </ul>
+                </nav>
+            </div>
+            <div>
+                <button class="btn btn-success" onclick="loadMore()">Thêm video</button>
+            </div>
+        </div>
+        <!-- END PAGENUMBER -->
