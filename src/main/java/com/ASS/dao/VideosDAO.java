@@ -26,7 +26,8 @@ public class VideosDAO implements BaseDAO<Videos, String>, VideoInterface {
         String jpql = "SELECT v FROM Videos v WHERE v.id = :id";
         TypedQuery<Videos> query = em.createQuery(jpql, Videos.class);
         query.setParameter("id", id);
-        return query.getSingleResult();
+        List<Videos> list = query.getResultList();
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
@@ -49,8 +50,21 @@ public class VideosDAO implements BaseDAO<Videos, String>, VideoInterface {
         EntityManager em = JpaUtils.getEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(entity);
-            em.getTransaction().commit();
+
+            Videos u = em.find(Videos.class, entity.getId());
+
+            if (u != null) {
+                u.setId(entity.getId());
+                u.setTitle(entity.getTitle());
+                u.setDescription(entity.getDescription());
+                u.setActive(entity.isActive());
+                u.setViews(entity.getViews());
+
+                em.merge(u);
+                em.getTransaction().commit();
+            } else {
+                em.getTransaction().rollback();
+            }
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw e;
@@ -66,8 +80,10 @@ public class VideosDAO implements BaseDAO<Videos, String>, VideoInterface {
             em.getTransaction().begin();
             Videos video = em.find(Videos.class, id);
             em.remove(video);
+            em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
+            e.printStackTrace();
             throw e;
         } finally {
             em.close();
@@ -84,6 +100,7 @@ public class VideosDAO implements BaseDAO<Videos, String>, VideoInterface {
         return query.getResultList();
     }
 
+    
     @Override
     public int getPageNumbersSize(int elementsNumber) {
         int n = 0;

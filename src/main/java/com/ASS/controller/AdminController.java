@@ -30,7 +30,9 @@ public class AdminController extends HttpServlet {
 
         if (url.equals("/Admin/Home")) {
             List<Videos> list = vdao.getVideosByPageNumber(0, 8);
+            int pageNumber = vdao.getPageNumbersSize(vdao.getAll().size());
 
+            req.setAttribute("pageNumbers", pageNumber);
             req.setAttribute("videoList", list);
             req.getRequestDispatcher("/views/admin/index.jsp").forward(req, resp);
             return;
