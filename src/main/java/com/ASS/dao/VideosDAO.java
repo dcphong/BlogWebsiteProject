@@ -59,7 +59,7 @@ public class VideosDAO implements BaseDAO<Videos, String>, VideoInterface {
                 u.setDescription(entity.getDescription());
                 u.setActive(entity.isActive());
                 u.setViews(entity.getViews());
-
+                u.setPoster(entity.getPoster());
                 em.merge(u);
                 em.getTransaction().commit();
             } else {
@@ -100,7 +100,7 @@ public class VideosDAO implements BaseDAO<Videos, String>, VideoInterface {
         return query.getResultList();
     }
 
-    
+
     @Override
     public int getPageNumbersSize(int elementsNumber) {
         int n = 0;

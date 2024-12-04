@@ -25,7 +25,7 @@ public class UserFilterController extends HttpServlet {
                     resp.getWriter().println("<div class=\"col videoList mb-md-2 mb-5\" style=\"height: 250px\">\n" +
                             "                                <a href=\"/videoDetails?vId=" + video.getId() + "\" class=\"link-ytb\">\n" +
                             "                                    <div class=\"card border-0 bg-ytb\">\n" +
-                            "                                        <img src=\"/images/" + video.getPoster() + "\" class=\"card-img-top bg-ytb rounded-3\" alt=\"...\">\n" +
+                            "                                        <img src=\"/imageLoad?imageName=" + video.getPoster() + "\" class=\"card-img-top bg-ytb rounded-3\" alt=\"...\">\n" +
                             "                                        <div class=\"card-body bg-ytb\">\n" +
                             "                                            <p class=\"card-text text-light\">\n" +
                             "                                                " + video.getTitle() + "\n" +

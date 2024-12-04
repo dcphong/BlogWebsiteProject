@@ -7,8 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <c:url value="/UserHome" var="homeClients"/>
+
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img
+        <a class="navbar-brand" href="${homeClients}"><img
                 src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="Logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +20,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <c:url value="/UserHome" var="homeClients"/>
-                    <input type="button" readonly class="nav-link">Tổng người dùng: ${applicationScope.visitors}</input>
+                    <%--                    <input type="button" readonly class="nav-link">--%>
                 </li>
                 <li class="nav-item">
-                    <c:url value="/UserHome" var="homeClients"/>
                     <a class="nav-link" href="${homeClients}"><i class="fas fa-home"></i> Trang chủ</a>
                 </li>
                 <li class="nav-item">
@@ -36,8 +37,8 @@
                     <c:url value="/Admin/statistics" var="adminStatistics"/>
                     <a class="nav-link" href="${adminStatistics}"><i class="fas fa-chart-bar"></i> Thống kê</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-user"></i> Tài khoản</a>
+                <li class="nav-link ms-auto text-light">
+                    Số người dùng truy cập: ${applicationScope.visitorCount}</input>
                 </li>
             </ul>
         </div>

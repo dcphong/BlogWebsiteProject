@@ -14,6 +14,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fun" %>
 <link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/styles.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <body style="background-color: #121212;color:#e0e0e0;margin: 0">
@@ -91,7 +92,9 @@
             </div>
 
             <!-- Tab: Danh Sách User -->
-            <div class="tab-pane fade" id="usersList" role="tabpanel" aria-labelledby="list-tab">
+            <div class="tab-pane fade overflow-auto scrollbar-hidden" id="usersList" role="tabpanel"
+                 aria-labelledby="list-tab"
+                 style="max-height: 550px">
                 <table class="table table-dark table-striped">
                     <thead>
                     <tr>
@@ -121,12 +124,6 @@
                     <!-- Add more rows as necessary -->
                     </tbody>
                 </table>
-                <div class="pagination-btns">
-                    <button class="btn btn-sm btn-light">First</button>
-                    <button class="btn btn-sm btn-light">Prev</button>
-                    <button class="btn btn-sm btn-light">Next</button>
-                    <button class="btn btn-sm btn-light">Last</button>
-                </div>
             </div>
         </div>
     </div>

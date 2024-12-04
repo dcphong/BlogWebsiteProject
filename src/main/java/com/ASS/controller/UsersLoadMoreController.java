@@ -38,7 +38,7 @@ public class UsersLoadMoreController extends HttpServlet {
                     out.println("<div class=\"col videoList mb-md-2 mb-5\" style=\"height: 250px\">" +
                             "<a href=\"/videoDetails?vId=" + video.getId() + "\" class=\"link-ytb\">" +
                             "<div class=\"card border-0 bg-ytb\">" +
-                            "<img src=\"/images/" + video.getPoster() + "\" class=\"card-img-top bg-ytb rounded-3\" alt=\"...\">" +
+                            "<img src=\"/imageLoad?imageName=" + video.getPoster() + "\" class=\"card-img-top bg-ytb rounded-3\" alt=\"...\">" +
                             "<div class=\"card-body bg-ytb\">" +
                             "<p class=\"card-text text-light\">" + video.getTitle() +
                             "<i class=\"bi bi-eye float-end fst-normal\">" + video.getViews() + "</i></p>" +

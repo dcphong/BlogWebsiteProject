@@ -74,7 +74,7 @@ public class UsersController extends HttpServlet {
                 }
             }
 
-            request.setAttribute("vList", vList);
+            request.setAttribute("vList", vDao.getAll());
             request.setAttribute("like", like);
             request.setAttribute("videoDetails", video);
             request.getRequestDispatcher("/views/clients/details.jsp").forward(request, response);

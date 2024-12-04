@@ -79,12 +79,12 @@
                             </div>
                             <div class="mb-3">
                                 <div class="form-check-inline">
-                                    <input class="form-check-input" name="active" value="true" type="checkbox"
+                                    <input class="form-check-input" name="active" value="true" type="radio"
                                            id="activeCheck">
                                     <label class="form-check-label" for="activeCheck">Hoạt động</label>
                                 </div>
                                 <div class="form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="active" value="false"
+                                    <input class="form-check-input" type="radio" name="active" value="false"
                                            id="inactiveCheck">
                                     <label class="form-check-label" for="inactiveCheck">Ẩn</label>
                                 </div>
@@ -103,7 +103,7 @@
                                 </button>
                                 <button type="submit" value="delete" name="buttonAction" class="btn btn-danger">Xóa
                                 </button>
-                                <button type="reset" class="btn btn-secondary">Làm mới</button>
+                                <button type="reset" id="resetBtn" class="btn btn-secondary">Làm mới</button>
                             </div>
                             <span id="formUploadMessage"></span>
                         </form>
@@ -155,152 +155,152 @@
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<%--<script>--%>
-<%--    const fileInput = document.getElementById('formFile')--%>
-<%--    const previewImage = document.getElementById('previewImage')--%>
-<%--    const poster = document.getElementById('posterName')--%>
+<script>
+    const fileInput = document.getElementById('formFile')
+    const previewImage = document.getElementById('previewImage')
+    const poster = document.getElementById('posterName')
 
-<%--    fileInput.addEventListener('change', (e) => {--%>
-<%--        const file = e.target.files[0];--%>
-<%--        if (file) {--%>
-<%--            poster.value = file.name--%>
-<%--            const reader = new FileReader();--%>
-<%--            reader.onload = (e) => {--%>
-<%--                previewImage.src = e.target.result;--%>
-<%--            };--%>
-<%--            reader.readAsDataURL(file);--%>
-<%--        }--%>
-<%--    })--%>
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        fileInput.value = "";
+        previewImage.src = "https://via.placeholder.com/300x200";
 
-<%--    document.getElementById('formUpload').addEventListener('submit', async (e) => {--%>
-<%--        e.preventDefault();--%>
-<%--        const form = e.target;--%>
-<%--        const formData = new FormData(form)--%>
-<%--        const idMessage = document.getElementById('idUploadMessage')--%>
-<%--        const titleMessage = document.getElementById('titleUploadMessage');--%>
-<%--        const viewsMessage = document.getElementById('viewsUploadMessage');--%>
-<%--        const formMessage = document.getElementById('formUploadMessage');--%>
-<%--        const button = e.submitter;--%>
-<%--        formData.append(button.name, button.value);--%>
-<%--        try {--%>
-<%--            const response = await fetch('/admin/upload', {--%>
-<%--                method: 'POST',--%>
-<%--                body: formData--%>
-<%--            })--%>
+    });
 
-<%--            const data = await response.json();--%>
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            poster.value = file.name
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    })
 
-<%--            if (!response.ok) {--%>
-<%--                console.log('Upload image failed', await response.text());--%>
-<%--            } else {--%>
-<%--                if (data.status == 'success') {--%>
-<%--                    formMessage.textContent = data.message;--%>
-<%--                    formMessage.classList.remove('text-danger')--%>
-<%--                    formMessage.classList.add('text-success')--%>
-<%--                } else {--%>
-<%--                    if (data.errors.idMessage) {--%>
-<%--                        idMessage.textContent = data.errors.idMessage--%>
-<%--                    }--%>
-<%--                    if (data.errors.titleMessage) {--%>
-<%--                        titleMessage.textContent = data.errors.titleMessage--%>
-<%--                    }--%>
-<%--                    if (data.errors.viewMessage) {--%>
-<%--                        viewsMessage.textContent = data.errors.viewMessage--%>
-<%--                    }--%>
-<%--                    formMessage.textContent = 'Upload Blog that bai!'--%>
-<%--                    formMessage.classList.add('text-danger')--%>
-<%--                    formMessage.classList.remove('text-success')--%>
-<%--                }--%>
-<%--            }--%>
-<%--        } catch (error) {--%>
-<%--            console.log(error)--%>
-<%--        }--%>
-<%--    })--%>
+    document.getElementById('formUpload').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form)
+        const idMessage = document.getElementById('idUploadMessage')
+        const titleMessage = document.getElementById('titleUploadMessage');
+        const viewsMessage = document.getElementById('viewsUploadMessage');
+        const formMessage = document.getElementById('formUploadMessage');
+        const fileInput = document.getElementById('formFile');
+        const button = e.submitter;
+        formData.append(button.name, button.value);
 
-<%--    const buttonGetVideoId = document.querySelectorAll("[name='buttonEditVideoId']");--%>
-<%--    let idVideo = document.getElementById('videoId');--%>
-<%--    let title = document.getElementById('videoTitle')--%>
-<%--    let views = document.getElementById('viewCount')--%>
-<%--    let description = document.getElementById('description')--%>
-<%--    let activeCheck = document.getElementById('activeCheck')--%>
-<%--    let inActive = document.getElementById('inactiveCheck')--%>
-<%--    let viewCount = document.getElementById('viewCount')--%>
+        if (!fileInput.files.length) {
+            formMessage.textContent = "Please select a file to upload.";
+            formMessage.classList.add('text-danger');
+            return;
+        }
+        formData.append("file", fileInput.files[0]);
+        try {
+            const response = await fetch('/api/uploadImage', {
+                method: 'POST',
+                body: formData
+            })
+            // console.log("TEXT:", await response.text());
 
-<%--    buttonGetVideoId.forEach((button) => {--%>
+            const data = await response.json();
+            console.log("JSON():", data);
 
-<%--        button.addEventListener('click', async () => {--%>
-<%--            const id = button.value--%>
-<%--            try {--%>
-<%--                const response = await fetch('/admin/edit', {--%>
-<%--                    method: 'POST',--%>
-<%--                    body: new URLSearchParams({--%>
-<%--                        id: id--%>
-<%--                    })--%>
-<%--                })--%>
+            if (!response.ok) {
+                formMessage.textContent = await data.message
+                formMessage.classList.add('text-danger')
+                formMessage.classList.remove('text-success')
+                console.log('Upload image failed', await data);
+            } else {
+                if (data.status == 'success') {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.remove('text-danger')
+                    formMessage.classList.add('text-success')
 
-<%--                const data = await response.json()--%>
+                    console.log('Image uploaded successfully:', data);
+                    formMessage.textContent = "Blog uploaded successfully!";
+                    formMessage.classList.add('text-success');
+                    formMessage.classList.remove('text-danger');
+                } else {
+                    if (data.errors.idMessage) {
+                        idMessage.textContent = data.errors.idMessage
+                    }
+                    if (data.errors.titleMessage) {
+                        titleMessage.textContent = data.errors.titleMessage
+                    }
+                    if (data.errors.viewMessage) {
+                        viewsMessage.textContent = data.errors.viewMessage
+                    }
+                    formMessage.textContent = 'Upload Blog that bai!'
+                    formMessage.classList.add('text-danger')
+                    formMessage.classList.remove('text-success')
+                }
+            }
+        } catch (error) {
+            console.log(error)
+            formMessage.textContent = 'Upload Blog that bai!'
+            formMessage.classList.add('text-danger')
+            formMessage.classList.remove('text-success')
+        }
+    })
 
-<%--                if (!response.ok) {--%>
-<%--                    throw new Error(`HTTP error! status: ${response.status}`);--%>
-<%--                }--%>
+    const buttonGetVideoId = document.querySelectorAll("[name='buttonEditVideoId']");
+    let idVideo = document.getElementById('videoId');
+    let title = document.getElementById('videoTitle')
+    let views = document.getElementById('viewCount')
+    let description = document.getElementById('description')
+    let activeCheck = document.getElementById('activeCheck')
+    let inActive = document.getElementById('inactiveCheck')
+    let viewCount = document.getElementById('viewCount')
 
-<%--                console.log(data)--%>
+    buttonGetVideoId.forEach((button) => {
 
-<%--                idVideo.value = data.id;--%>
-<%--                title.value = data.title;--%>
-<%--                description.value = data.description;--%>
-<%--                viewCount.value = data.views;--%>
-<%--                document.getElementById('posterName').value = data.poster--%>
-<%--                document.getElementById('previewImage').src = "/images/" + data.poster--%>
+        button.addEventListener('click', async () => {
+            const id = button.value
+            try {
+                const response = await fetch('/admin/edit', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        id: id
+                    })
+                })
 
-<%--                if (data.active == true) {--%>
-<%--                    activeCheck.value = true--%>
-<%--                } else {--%>
-<%--                    inActive.value = false;--%>
-<%--                }--%>
-<%--                document.getElementById('details').classList.add('show', 'active')--%>
-<%--                document.getElementById('list').classList.remove('show', 'active')--%>
+                const data = await response.json()
 
-<%--                document.getElementById('details-tab').classList.add('active')--%>
-<%--                document.getElementById('list-tab').classList.remove('active')--%>
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-<%--            } catch (error) {--%>
-<%--                console.log(error)--%>
-<%--            }--%>
-<%--        })--%>
+                console.log(data)
 
-<%--    })--%>
-<%--</script>--%>
-<%--<script>--%>
-<%--    const paginationButtons = document.querySelectorAll("[name='paginationNum']");--%>
-<%--    const content = document.getElementById("contentTable");--%>
-<%--    paginationButtons.forEach((button) => {--%>
-<%--        button.addEventListener("click", async () => {--%>
-<%--            const value = button.value;--%>
+                idVideo.value = data.id;
+                title.value = data.title;
+                description.value = data.description;
+                viewCount.value = data.views;
+                document.getElementById('posterName').value = data.poster
+                document.getElementById('previewImage').src = "/images/" + data.poster
 
-<%--            try {--%>
-<%--                const response = await fetch("/admin/video/pagination", {--%>
-<%--                    method: "POST",--%>
-<%--                    headers: {--%>
-<%--                        "Content-Type": "application/x-www-form-urlencoded",--%>
-<%--                    },--%>
-<%--                    body: new URLSearchParams({value: value}),--%>
-<%--                });--%>
-<%--                if (!response.ok) {--%>
-<%--                    throw new Error(`HTTP error! Status: ${response.status}`);--%>
-<%--                }--%>
-<%--                const responseData = await response.text();--%>
-<%--                content.innerHTML = responseData;--%>
-<%--            } catch (error) {--%>
-<%--                console.error("Đã xảy ra lỗi:", error);--%>
-<%--            }--%>
-<%--        });--%>
-<%--    });--%>
-<%--</script>--%>
+                if (data.active == true) {
+                    activeCheck.checked = true
+                } else {
+                    inActive.checked = true;
+                }
+                document.getElementById('details').classList.add('show', 'active')
+                document.getElementById('list').classList.remove('show', 'active')
+
+                document.getElementById('details-tab').classList.add('active')
+                document.getElementById('list-tab').classList.remove('active')
+
+            } catch (error) {
+                console.log(error)
+            }
+        })
+
+    })
+</script>
 <script>
     const paginationButtons = document.querySelectorAll("[name='paginationNum']");
     const content = document.getElementById("contentTable");
-
     paginationButtons.forEach((button) => {
         button.addEventListener("click", async () => {
             const value = button.value;
@@ -316,59 +316,61 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+
                 const responseData = await response.text();
                 content.innerHTML = responseData;
-
-                // Đăng ký lại sự kiện click cho các nút "Chỉnh sửa"
                 const buttonGetVideoId = document.querySelectorAll("[name='buttonEditVideoId']");
                 buttonGetVideoId.forEach((button) => {
+
                     button.addEventListener('click', async () => {
-                        const id = button.value;
+                        const id = button.value
                         try {
                             const response = await fetch('/admin/edit', {
                                 method: 'POST',
                                 body: new URLSearchParams({
                                     id: id
                                 })
-                            });
+                            })
 
-                            const data = await response.json();
+                            const data = await response.json()
 
                             if (!response.ok) {
                                 throw new Error(`HTTP error! status: ${response.status}`);
                             }
 
+                            console.log(data)
+
                             idVideo.value = data.id;
                             title.value = data.title;
                             description.value = data.description;
                             viewCount.value = data.views;
-                            document.getElementById('posterName').value = data.poster;
-                            document.getElementById('previewImage').src = "/images/" + data.poster;
+                            document.getElementById('posterName').value = data.poster
+                            document.getElementById('previewImage').src = "/images/" + data.poster
 
                             if (data.active == true) {
-                                activeCheck.value = true;
+                                activeCheck.value = true
                             } else {
                                 inActive.value = false;
                             }
+                            document.getElementById('details').classList.add('show', 'active')
+                            document.getElementById('list').classList.remove('show', 'active')
 
-                            document.getElementById('details').classList.add('show', 'active');
-                            document.getElementById('list').classList.remove('show', 'active');
-
-                            document.getElementById('details-tab').classList.add('active');
-                            document.getElementById('list-tab').classList.remove('active');
+                            document.getElementById('details-tab').classList.add('active')
+                            document.getElementById('list-tab').classList.remove('active')
 
                         } catch (error) {
-                            console.log(error);
+                            console.log(error)
                         }
-                    });
-                });
+                    })
+
+                })
 
             } catch (error) {
                 console.error("Đã xảy ra lỗi:", error);
             }
         });
     });
-
 </script>
+
 
 </html>

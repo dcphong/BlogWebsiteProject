@@ -26,8 +26,12 @@
     <!-- END HEADER NAVBAR -->
     <div class="row">
         <c:set value="${videoDetails}" var="video" scope="request"/>
-        <div class="col-md-8 col-12 px-4">
-            <img src="/images/${video.poster}" class="rounded-3 object-fit shadow-5 mt-4" alt="" style="width: 95%;">
+        <div class="col-md-8 col-12 px-4 ">
+            <c:url value="/imageLoad" var="imgApi"/>
+            <div class="overflow-hidden rounded-3" style="height: 750px">
+                <img src="${imgApi}?imageName=${video.poster}" class="rounded-3 object-fit shadow-5 mt-4" alt=""
+                     style="width: 95%;">
+            </div>
             <h1 class="fs-5 text-light mt-2 mx-3">${video.title}</h1>
             <hr class="text-light">
             <div class="row">
@@ -53,7 +57,7 @@
                 </div>
             </div>
             <div class="row mb-3 mt-3">
-                <div class="bg-description mx-3 rounded-3">
+                <div class="bg-description mx-3 rounded-3" style="width: 95%">
                     <p class="card-text text-light mb-5">
                         ${video.description}
                     </p>
@@ -62,13 +66,15 @@
         </div>
 
         <!-- LIST OTHER VIDEO -->
-        <div id="contentDetails" class="col-md-4 col-12 overflow-auto mt-2 scrollbar-hidden" style="height: 650px;">
+        <div id="contentDetails" class="col-md-4 col-12 overflow-auto mt-2 scrollbar-hidden" style="height: 750px;">
+            <c:url value="/imageLoad" var="imgApi"/>
             <c:forEach items="${vList}" var="videoOther">
                 <c:url value="/videoDetails?vId=${videoOther.id}" var="vIdUrl"/>
                 <a href="${vIdUrl}" class="link-ytb">
-                    <div class="row videoList" style="height: 150px;">
-                        <div class="col-6">
-                            <img src="/images/${videoOther.poster}" class="rounded-3 w-100 object-fit" alt="">
+                    <div class="row videoList mb-2" style="height: 150px;">
+                        <div class="col-6 overflow-hidden" style="height: 150px">
+                            <img src="${imgApi}?imageName=${videoOther.poster}" class="rounded-3 w-100 object-fit"
+                                 alt="">
                         </div>
                         <div class="col-6 text-light">
                             <h5 class="fs-6 fw-bold">

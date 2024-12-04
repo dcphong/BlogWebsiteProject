@@ -50,17 +50,24 @@
         <!-- CONTENT -->
         <div class="col-11 scrollbar-hidden d-flex">
             <div id="content" class="row row-cols-1  row-cols-md-4 row-gap-4 mt-2">
+                <c:url value="/imageLoad" var="imgApi"/>
                 <c:forEach items="${vList}" var="video">
-                    <div class="col videoList mb-md-2 mb-5" style="height: 250px">
+                    <div class="col videoList mb-md-2 mb-5 " style="height: 250px">
                         <c:url value="/videoDetails?vId=${video.id}" var="vId"/>
                         <a href="${vId}" class="link-ytb">
                             <div class="card border-0 bg-ytb">
-                                <img src="/images/${video.poster}" class="card-img-top bg-ytb rounded-3" alt="...">
+                                <div class="overflow-hidden" style="height: 200px">
+                                    <img src="${imgApi}?imageName=${video.poster}" class="card-img-top bg-ytb rounded-3"
+                                         alt="...">
+                                </div>
                                 <div class="card-body bg-ytb">
                                     <p class="card-text text-light">
                                             ${video.title}
-                                        <i class="bi bi-eye float-end fst-normal"> ${video.views}</i>
+
                                     </p>
+                                    <div class="d-block">
+                                        <i class=" bi bi-eye float-start fst-normal text-light float-end"> ${video.views}</i>
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -86,9 +93,6 @@
                 <button class="btn btn-outline-light mx-1" id="firstPage">
                     <i class="bi bi-chevron-double-left"></i>
                 </button>
-                <button class="btn btn-outline-light mx-1" id="prevPage">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
 
                 <c:forEach begin="1" end="${pageNumbers}" var="i">
                     <button name="paginationNum" value="${i}" class="btn btn-outline-light mx-1 pageButton">
@@ -96,9 +100,6 @@
                     </button>
                 </c:forEach>
 
-                <button class="btn btn-outline-light mx-1" id="nextPage">
-                    <i class="bi bi-chevron-right"></i>
-                </button>
                 <button class="btn btn-outline-light mx-1" id="lastPage">
                     <i class="bi bi-chevron-double-right"></i>
                 </button>
@@ -230,7 +231,7 @@
             button.addEventListener("click", async () => {
                 const value = button.value;
                 document.getElementById('currentPage').value = value;
-                
+
                 spinner.classList.remove("d-none");
                 overlay.classList.remove("d-none");
 
@@ -293,63 +294,6 @@
                             "Content-Type": "application/x-www-form-urlencoded",
                         },
                         body: new URLSearchParams({paginationButton: 'lastPage'}),
-                    })
-                ;
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const responseData = await response.text();
-                content.innerHTML = responseData;
-            } catch (error) {
-                console.log("loi phan trang", error)
-            } finally {
-                spinner.classList.add("d-none");
-                overlay.classList.add("d-none");
-            }
-        })
-
-        document.getElementById('nextPage').addEventListener('click', async function () {
-            let currentPage = document.getElementById('currentPage').value;
-            currentPage = parseInt(currentPage) + 1;
-            document.getElementById('currentPage').value = currentPage;
-
-            spinner.classList.remove("d-none");
-            overlay.classList.remove("d-none");
-            try {
-                const response = await fetch('/UserHome/paginationButton', {
-                        method: 'POST',
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: new URLSearchParams({paginationButton: 'nextPage', currentPage: currentPage}),
-                    })
-                ;
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const responseData = await response.text();
-                content.innerHTML = responseData;
-            } catch (error) {
-                console.log("loi phan trang", error)
-            } finally {
-                spinner.classList.add("d-none");
-                overlay.classList.add("d-none");
-            }
-        })
-
-        document.getElementById('prevPage').addEventListener('click', async function () {
-            const currentPage = document.getElementById('currentPage').value;
-            const nextPage = parseInt(currentPage) - 1;
-            document.getElementById('currentPage').value = nextPage;
-            spinner.classList.remove("d-none");
-            overlay.classList.remove("d-none");
-            try {
-                const response = await fetch('/UserHome/paginationButton', {
-                        method: 'POST',
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: new URLSearchParams({paginationButton: 'prevPage', currentPage: currentPage}),
                     })
                 ;
                 if (!response.ok) {
